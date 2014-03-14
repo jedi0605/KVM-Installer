@@ -174,7 +174,7 @@ confirm_reboot() {
   local ok='n'
   echo -n "Reboot now to complete installation (y/n)? "
   read ok
-  if [ "$ok" == 'y' ] && [ "$ok" == 'Y' ]
+  if [ "$ok" == 'y' ] || [ "$ok" == 'Y' ]
   then
     reboot
   else
