@@ -149,6 +149,9 @@ config_nas() {
   read nasDir
   echo "$nasDir $mediaDir nfs hard,intr,rsize=8192,wsize=8192,vers=3   0   0" >> /etc/fstab
   mount -a
+  virsh pool-define-as gcca dir - - - - /media/gcca_storage
+  virsh pool-autostart gcca
+  virsh pool-start gcca
 }
 
 # config bridge
