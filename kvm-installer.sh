@@ -68,17 +68,6 @@ config_network() {
   /etc/init.d/networking restart
 }
 
-# Install synaptic package manager and Confirm all packages are installed in Synaptic package manager
-install_synaptic() {
-  apt-get install synaptic
-  synaptic
-  local ok='n'
-  while [ "$ok" != 'y' ] && [ "$ok" != 'Y' ]; do
-    echo -n "Did you install all packages in Synaptic package manager(y/n)? "
-    read ok
-  done
-}
-
 # config openssh-server
 config_ssh() {            
   echo "UseDNS no" >> /etc/ssh/sshd_config
@@ -192,10 +181,10 @@ main() {
     echo "Must be root to run this script."
   exit $E_NOTROOT
   fi 
-
+  
+  dpkg -i --force-depends ./debOffline/*.deb
   disable_net_mgr
   config_network
-  install_synaptic  
   config_ssh
   config_kvm
   config_boot_proc
