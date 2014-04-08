@@ -51,19 +51,19 @@ config_network() {
     read ok
   done
 
-  echo "" >> $NET_CONFIG_FILE
-  echo "auto $nic2" >> $NET_CONFIG_FILE
-  echo "iface $nic2 inet static" >> $NET_CONFIG_FILE
-  echo "address $ip2" >> $NET_CONFIG_FILE
-  echo "netmask $netmask2" >> $NET_CONFIG_FILE
+  echo "" >> "$NET_CONFIG_FILE"
+  echo "auto $nic2" >> "$NET_CONFIG_FILE"
+  echo "iface $nic2 inet static" >> "$NET_CONFIG_FILE"
+  echo "address $ip2" >> "$NET_CONFIG_FILE"
+  echo "netmask $netmask2" >> "$NET_CONFIG_FILE"
 
-  echo "" >> $NET_CONFIG_FILE
-  echo "auto $nic1" >> $NET_CONFIG_FILE
-  echo "iface $nic1 inet static" >> $NET_CONFIG_FILE
-  echo "address $ip1" >> $NET_CONFIG_FILE
-  echo "netmask $netmask1" >> $NET_CONFIG_FILE
-  echo "gateway $gateway1" >> $NET_CONFIG_FILE
-  echo "dns-nameservers $dns1" >> $NET_CONFIG_FILE
+  echo "" >> "$NET_CONFIG_FILE"
+  echo "auto $nic1" >> "$NET_CONFIG_FILE"
+  echo "iface $nic1 inet static" >> "$NET_CONFIG_FILE"
+  echo "address $ip1" >> "$NET_CONFIG_FILE"
+  echo "netmask $netmask1" >> "$NET_CONFIG_FILE"
+  echo "gateway $gateway1" >> "$NET_CONFIG_FILE"
+  echo "dns-nameservers $dns1" >> "$NET_CONFIG_FILE"
 
   /etc/init.d/networking restart
 }
@@ -80,45 +80,45 @@ config_kvm() {
   read INSTALL_USER
   echo ""
   
-  usermod -a -G kvm $INSTALL_USER
+  usermod -a -G kvm "$INSTALL_USER"
 
-  echo "" >> $LIBVIRTD_CONFIG_FILE
-  echo "###################################################################" >> $LIBVIRTD_CONFIG_FILE
-  echo "listen_tls = 0" >> $LIBVIRTD_CONFIG_FILE
-  echo "listen_tcp = 1" >> $LIBVIRTD_CONFIG_FILE
-  echo tcp_port = \"16509\" >> $LIBVIRTD_CONFIG_FILE
-  echo unix_sock_group = \"libvirtd\" >> $LIBVIRTD_CONFIG_FILE
-  echo unix_sock_rw_perms = \"0770\" >> $LIBVIRTD_CONFIG_FILE
-  echo auth_unix_ro = \"none\" >> $LIBVIRTD_CONFIG_FILE
-  echo auth_unix_rw = \"none\" >> $LIBVIRTD_CONFIG_FILE
-  echo auth_tcp= \"none\" >> $LIBVIRTD_CONFIG_FILE
-  echo "log_level = 3" >> $LIBVIRTD_CONFIG_FILE
-  echo log_outputs=\"3:syslog:libvirtd\" >> $LIBVIRTD_CONFIG_FILE
-  echo "max_requests = 100" >> $LIBVIRTD_CONFIG_FILE
-  echo "max_client_requests = 40" >> $LIBVIRTD_CONFIG_FILE
-  echo "min_workers = 20" >> $LIBVIRTD_CONFIG_FILE
-  echo "max_workers = 40" >> $LIBVIRTD_CONFIG_FILE
-  echo "max_clients = 40" >> $LIBVIRTD_CONFIG_FILE
+  echo "" >> "$LIBVIRTD_CONFIG_FILE"
+  echo "###################################################################" >> "$LIBVIRTD_CONFIG_FILE"
+  echo "listen_tls = 0" >> "$LIBVIRTD_CONFIG_FILE"
+  echo "listen_tcp = 1" >> "$LIBVIRTD_CONFIG_FILE"
+  echo tcp_port = \"16509\" >> "$LIBVIRTD_CONFIG_FILE"
+  echo unix_sock_group = \"libvirtd\" >> "$LIBVIRTD_CONFIG_FILE"
+  echo unix_sock_rw_perms = \"0770\" >> "$LIBVIRTD_CONFIG_FILE"
+  echo auth_unix_ro = \"none\" >> "$LIBVIRTD_CONFIG_FILE"
+  echo auth_unix_rw = \"none\" >> "$LIBVIRTD_CONFIG_FILE"
+  echo auth_tcp= \"none\" >> "$LIBVIRTD_CONFIG_FILE"
+  echo "log_level = 3" >> "$LIBVIRTD_CONFIG_FILE"
+  echo log_outputs=\"3:syslog:libvirtd\" >> "$LIBVIRTD_CONFIG_FILE"
+  echo "max_requests = 100" >> "$LIBVIRTD_CONFIG_FILE"
+  echo "max_client_requests = 40" >> "$LIBVIRTD_CONFIG_FILE"
+  echo "min_workers = 20" >> "$LIBVIRTD_CONFIG_FILE"
+  echo "max_workers = 40" >> "$LIBVIRTD_CONFIG_FILE"
+  echo "max_clients = 40" >> "$LIBVIRTD_CONFIG_FILE"
 
-  echo "" >> $LIBVIRT_CONFIG_FILE
-  echo "###################################################################" >> $LIBVIRT_CONFIG_FILE
-  echo "listen_tls = 0" >> $LIBVIRT_CONFIG_FILE
-  echo "listen_tcp = 1" >> $LIBVIRT_CONFIG_FILE
-  echo tcp_port = \"16509\" >> $LIBVIRT_CONFIG_FILE
-  echo unix_sock_group = \"libvirtd\" >> $LIBVIRT_CONFIG_FILE
-  echo unix_sock_rw_perms = \"0770\" >> $LIBVIRT_CONFIG_FILE
-  echo auth_unix_ro = \"none\" >> $LIBVIRT_CONFIG_FILE
-  echo auth_unix_rw = \"none\" >> $LIBVIRT_CONFIG_FILE
-  echo auth_tcp= \"none\" >> $LIBVIRT_CONFIG_FILE
-  echo "log_level = 3" >> $LIBVIRT_CONFIG_FILE
-  echo log_outputs=\"3:syslog:libvirtd\" >> $LIBVIRT_CONFIG_FILE
-  echo "max_requests = 100" >> $LIBVIRT_CONFIG_FILE
-  echo "max_client_requests = 40" >> $LIBVIRT_CONFIG_FILE
-  echo "min_workers = 20" >> $LIBVIRT_CONFIG_FILE
-  echo "max_workers = 40" >> $LIBVIRT_CONFIG_FILE
-  echo "max_clients = 40" >> $LIBVIRT_CONFIG_FILE
+  echo "" >> "$LIBVIRT_CONFIG_FILE"
+  echo "###################################################################" >> "$LIBVIRT_CONFIG_FILE"
+  echo "listen_tls = 0" >> "$LIBVIRT_CONFIG_FILE"
+  echo "listen_tcp = 1" >> "$LIBVIRT_CONFIG_FILE"
+  echo tcp_port = \"16509\" >> "$LIBVIRT_CONFIG_FILE"
+  echo unix_sock_group = \"libvirtd\" >> "$LIBVIRT_CONFIG_FILE"
+  echo unix_sock_rw_perms = \"0770\" >> "$LIBVIRT_CONFIG_FILE"
+  echo auth_unix_ro = \"none\" >> "$LIBVIRT_CONFIG_FILE"
+  echo auth_unix_rw = \"none\" >> "$LIBVIRT_CONFIG_FILE"
+  echo auth_tcp= \"none\" >> "$LIBVIRT_CONFIG_FILE"
+  echo "log_level = 3" >> "$LIBVIRT_CONFIG_FILE"
+  echo log_outputs=\"3:syslog:libvirtd\" >> "$LIBVIRT_CONFIG_FILE"
+  echo "max_requests = 100" >> "$LIBVIRT_CONFIG_FILE"
+  echo "max_client_requests = 40" >> "$LIBVIRT_CONFIG_FILE"
+  echo "min_workers = 20" >> "$LIBVIRT_CONFIG_FILE"
+  echo "max_workers = 40" >> "$LIBVIRT_CONFIG_FILE"
+  echo "max_clients = 40" >> "$LIBVIRT_CONFIG_FILE"
 
-  cp $PWD/qemu.conf $QEMU_CONFIG_FILE
+  cp "$PWD/qemu.conf" "$QEMU_CONFIG_FILE"
   
   /etc/init.d/libvirt-bin stop
   libvirtd -d -l
@@ -126,13 +126,13 @@ config_kvm() {
 
 # config processes which will auto starts when system boots
 config_boot_proc() {
-  cp $PWD/rc.local $RC_LOCAL_FILE
+  cp "$PWD/rc.local" "$RC_LOCAL_FILE"
 }
 
 # config NAS
 config_nas() {
   local mediaDir="/media/gcca_storage"
-  mkdir $mediaDir
+  mkdir "$mediaDir"
 
   echo -n "Enter VM image location in NAS(e.g. 172.16.10.235:/gDesCloud): "
   read nasDir
@@ -145,12 +145,12 @@ config_nas() {
 
 # config bridge
 config_bridge() {
-  ifdown $nic1
+  ifdown "$nic1"
 
-  sed -i 's/'"$nic1"'/'"$BRIDGE_NAME"'/g' $NET_CONFIG_FILE
-  sed -i '$a bridge_ports '"$nic1"'' $NET_CONFIG_FILE
-  sed -i '$a bridge_stp off' $NET_CONFIG_FILE
-  sed -i '$a bridge_maxwait 0' $NET_CONFIG_FILE
+  sed -i 's/'"$nic1"'/'"$BRIDGE_NAME"'/g' "$NET_CONFIG_FILE"
+  sed -i '$a bridge_ports '"$nic1"'' "$NET_CONFIG_FILE"
+  sed -i '$a bridge_stp off' "$NET_CONFIG_FILE"
+  sed -i '$a bridge_maxwait 0' "$NET_CONFIG_FILE"
   /etc/init.d/networking restart
 }
 
@@ -159,7 +159,7 @@ config_bridge() {
 #}
 
 config_XTerm() {
-  cp $PWD/.Xdefaults /home/$INSTALL_USER/.Xdefaults
+  cp "$PWD/.Xdefaults" "/home/$INSTALL_USER/.Xdefaults"
 }
 
 confirm_reboot() {
@@ -179,7 +179,7 @@ main() {
   if [ "$UID" -ne "$ROOT_UID" ]
   then
     echo "Must be root to run this script."
-  exit $E_NOTROOT
+  exit "$E_NOTROOT"
   fi 
   
   dpkg -i --force-depends ./debOffline/*.deb
