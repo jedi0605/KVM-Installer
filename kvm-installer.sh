@@ -1,5 +1,5 @@
 #!/bin/bash
-#£}£}
+
 #set -x
 
 ROOT_UID=0 # Only users with $UID 0 have root privileges.
