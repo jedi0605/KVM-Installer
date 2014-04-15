@@ -120,6 +120,9 @@ config_kvm() {
 
   cp "$PWD/qemu.conf" "$QEMU_CONFIG_FILE"
   
+  # Disable unwanted iPXE boot attempt in Libvirt/qemu-kvm
+  chmod a= /usr/share/qemu/pxe*.rom
+  
   /etc/init.d/libvirt-bin stop
   libvirtd -d -l
 }
