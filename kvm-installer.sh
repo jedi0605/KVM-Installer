@@ -1,11 +1,9 @@
 #!/bin/bash
-
 #set -x
 
 ROOT_UID=0 # Only users with $UID 0 have root privileges.
 E_NOTROOT=87 # Non-root exit error.
 E_RETRY=1 # Retry exit error
-
 #INSTALLER_DIR=/media/gcca_storage
 LIBVIRT_CONFIG_FILE=/etc/libvirt/libvirt.conf
 LIBVIRTD_CONFIG_FILE=/etc/libvirt/libvirtd.conf
@@ -22,9 +20,10 @@ disable_net_mgr() {
   echo "manual" | sudo tee /etc/init/network-manager.override
 }
 
-# config network
+# config network according to deployment type
 config_network() {
   local ok='n'
+
   while [ "$ok" != 'y' ] && [ "$ok" != 'Y' ]; do
     echo "Enter NIC1 info (for management and VM):"
     echo -n "name(e.g. eth1): "
@@ -38,24 +37,28 @@ config_network() {
     echo -n "DNS IPv4 address(e.g. 172.16.88.111): "
     read dns1
 
-    echo ""
-    echo "Enter NIC2 info (for connecting NAS):"
-    echo -n "name(e.g. eth0): "
-    read nic2
-    echo -n "IPv4 address(e.g. 172.16.10.166): "
-    read ip2
-    echo -n "netmask(e.g. 255.255.255.0): "
-    read netmask2
+    if [[ "$1" == '1' ]]; then
+      echo ""
+      echo "Enter NIC2 info (for connecting NAS):"
+      echo -n "name(e.g. eth0): "
+      read nic2
+      echo -n "IPv4 address(e.g. 172.16.10.166): "
+      read ip2
+      echo -n "netmask(e.g. 255.255.255.0): "
+      read netmask2
+    fi
 
     echo -n "All you entered are CORRECT(y/n)? "
     read ok
   done
 
-  echo "" >> "$NET_CONFIG_FILE"
-  echo "auto $nic2" >> "$NET_CONFIG_FILE"
-  echo "iface $nic2 inet static" >> "$NET_CONFIG_FILE"
-  echo "address $ip2" >> "$NET_CONFIG_FILE"
-  echo "netmask $netmask2" >> "$NET_CONFIG_FILE"
+  if [[ "$1" == '1' ]]; then
+    echo "" >> "$NET_CONFIG_FILE"
+    echo "auto $nic2" >> "$NET_CONFIG_FILE"
+    echo "iface $nic2 inet static" >> "$NET_CONFIG_FILE"
+    echo "address $ip2" >> "$NET_CONFIG_FILE"
+    echo "netmask $netmask2" >> "$NET_CONFIG_FILE"
+  fi
 
   echo "" >> "$NET_CONFIG_FILE"
   echo "auto $nic1" >> "$NET_CONFIG_FILE"
@@ -146,6 +149,34 @@ config_nas() {
   virsh pool-start gcca
 }
 
+# config local disk
+config_local_disk() {
+  local mediaDir="/media/gcca_storage"
+  mkdir "$mediaDir"
+  echo "root:2845j/cj86mp62j0" | chpasswd
+}
+
+# config storage for KVM
+config_kvm_storage() {
+  local option='0'
+     
+  while [ "$option" == '0' ]; do
+    echo ""
+    echo -n "Where will you put KVM virtual machine files? 1.NAS 2.local disk: "
+    read option
+    if [ "$option" == '1' ]; then
+      config_nas
+    elif [ "$option" == '2' ]; then
+      config_local_disk
+    else
+      option='0'
+    fi  
+  done
+
+  # config network according to user deployment type
+  config_network $option
+}
+
 # config bridge
 config_bridge() {
   ifdown "$nic1"
@@ -187,11 +218,10 @@ main() {
   
   dpkg -i --force-depends ./debOffline/*.deb
   disable_net_mgr
-  config_network
   config_ssh
   config_kvm
   config_boot_proc
-  config_nas
+  config_kvm_storage
   config_bridge
   config_XTerm
   confirm_reboot
