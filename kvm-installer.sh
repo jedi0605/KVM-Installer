@@ -137,7 +137,6 @@ config_nas() {
   local mediaDir="/media/gcca_storage"
   mkdir "$mediaDir"
 
-  echo ""
   echo -n "Enter VM image location in NAS(e.g. 172.16.10.235:/gDesCloud): "
   read nasDir
   echo "$nasDir $mediaDir nfs hard,intr,rsize=8192,wsize=8192,vers=3   0   0" >> /etc/fstab
@@ -145,31 +144,6 @@ config_nas() {
   virsh pool-define-as gcca dir - - - - /media/gcca_storage
   virsh pool-autostart gcca
   virsh pool-start gcca
-}
-
-# config local disk
-config_local_disk() {
-  local mediaDir="/media/gcca_storage"
-  mkdir "$mediaDir"
-  echo "root:2845j/cj86mp62j0" | chpasswd
-}
-
-# config storage for KVM
-config_kvm_storage() {
-  local option='0'
-     
-  while [ "$option" == '0' ]; do
-    echo ""
-	echo -n "Where will you put KVM virtual machine files? 1.NAS 2.local disk: "
-    read option
-    if ["$option" == '1']; then
-	  config_nas
-	elif ["$option" == '2']; then
-	  config_local_disk
-	else
-	  option='0'
-	fi  
-  done
 }
 
 # config bridge
@@ -217,7 +191,7 @@ main() {
   config_ssh
   config_kvm
   config_boot_proc
-  config_kvm_storage
+  config_nas
   config_bridge
   config_XTerm
   confirm_reboot
