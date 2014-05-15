@@ -153,7 +153,6 @@ config_nas() {
 config_local_disk() {
   local mediaDir="/media/gcca_storage"
   mkdir "$mediaDir"
-  chmod 777 "$mediaDir"
   echo "root:2845j/cj86mp62j0" | chpasswd
   virsh pool-define-as gcca dir - - - - /media/gcca_storage
   virsh pool-autostart gcca
