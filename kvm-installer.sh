@@ -13,6 +13,7 @@ RC_LOCAL_FILE=/etc/rc.local
 BRIDGE_NAME=br0
 INSTALL_USER=gcca
 nic1=eth0
+SYSCTL_CONFIG_FILE=/etc/sysctl.conf
 
 # disable GUI tool: network manager
 disable_net_mgr() {
@@ -48,7 +49,7 @@ config_network() {
       read netmask2
     fi
 
-    echo -n "All you entered are CORRECT(y/n)? "
+    echo -n "All you entered are CORRECT(y/N)? "
     read ok
   done
 
@@ -199,9 +200,14 @@ config_XTerm() {
   cp "$PWD/.Xdefaults" "/home/$INSTALL_USER/.Xdefaults"
 }
 
+increase_vm_speed() {
+  echo "vm.swappiness = 0" >> "$SYSCTL_CONFIG_FILE"
+  sysctl -p
+}
+
 confirm_reboot() {
   local ok='n'
-  echo -n "Reboot now to complete installation (y/n)? "
+  echo -n "Reboot now to complete installation (y/N)? "
   read ok
   if [ "$ok" == 'y' ] || [ "$ok" == 'Y' ]
   then
@@ -227,6 +233,7 @@ main() {
   config_kvm_storage
   config_bridge
   config_XTerm
+  increase_vm_speed
   confirm_reboot
 }
 
