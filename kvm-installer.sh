@@ -169,16 +169,15 @@ config_kvm_storage() {
     echo -n "Where will you put KVM virtual machine files? 1.NAS 2.local disk: "
     read option
     if [ "$option" == '1' ]; then
+      config_network $option
       config_nas
     elif [ "$option" == '2' ]; then
+      config_network $option
       config_local_disk
     else
       option='0'
     fi  
   done
-
-  # config network according to user deployment type
-  config_network $option
 }
 
 # config bridge
