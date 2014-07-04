@@ -201,7 +201,17 @@ config_XTerm() {
 }
 
 increase_vm_speed() {
+  echo "kernel.sem = 250 32000 100 128" >> "$SYSCTL_CONFIG_FILE"
+  echo "kernel.shmall = 2097152" >> "$SYSCTL_CONFIG_FILE"
+  echo "kernel.shmmax = 2147483648" >> "$SYSCTL_CONFIG_FILE"
+  echo "kernel.shmmni = 4096" >> "$SYSCTL_CONFIG_FILE"
+  echo "fs.file-max = 262140" >> "$SYSCTL_CONFIG_FILE"
   echo "vm.swappiness = 0" >> "$SYSCTL_CONFIG_FILE"
+  echo "vm.vfs_cache_pressure = 50" >> "$SYSCTL_CONFIG_FILE"
+  echo "vm.min_free_kbytes = 4096" >> "$SYSCTL_CONFIG_FILE"
+  echo "vm.dirty_ratio = 1" >> "$SYSCTL_CONFIG_FILE"
+  echo "vm.dirty_expire_centisecs = 6000" >> "$SYSCTL_CONFIG_FILE"
+  echo "vm.dirty_writeback_centisecs = 4000" >> "$SYSCTL_CONFIG_FILE"  
   sysctl -p
 }
 
