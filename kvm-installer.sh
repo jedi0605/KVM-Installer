@@ -14,6 +14,13 @@ BRIDGE_NAME=br0
 INSTALL_USER=gcca
 nic1=eth0
 SYSCTL_CONFIG_FILE=/etc/sysctl.conf
+VERSION='20140703'
+
+# show version info
+show_version_info() {
+  echo "Welcome to gDesCloud installer version $VERSION"
+  read -p "Press [Enter] key to start installer..."
+}
 
 # disable GUI tool: network manager
 disable_net_mgr() {
@@ -233,8 +240,9 @@ main() {
   then
     echo "Must be root to run this script."
   exit "$E_NOTROOT"
-  fi 
-  
+  fi
+
+  show_version_info
   dpkg -i --force-depends ./debOffline/*.deb
   disable_net_mgr
   config_ssh
