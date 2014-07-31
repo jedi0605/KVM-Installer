@@ -16,10 +16,14 @@ sudo /etc/init.d/libvirt-bin stop
 sudo libvirtd -d -l
 
 echo cfq > /sys/block/sda/queue/scheduler
-echo 65535 > /sys/block/sda/queue/read_ahead_kb
+echo 128 > /sys/block/sda/queue/read_ahead_kb
 echo 60000 > /sys/block/sda/queue/iosched/write_expire
-echo 500 > /sys/block/sda/queue/iosched/read_expire
-echo 16384 > /sys/block/sda/queue/nr_requests
-echo 128 > /sys/block/sda/queue/max_sectors_kb
+echo 300 > /sys/block/sda/queue/iosched/read_expire
+echo 50 > /sys/block/sda/queue/iosched/slice_async
+echo 1 > /sys/block/sda/queue/iosched/low_latency
+echo 2048 > /sys/block/sda/queue/nr_requests
+echo 256 > /sys/block/sda/queue/max_sectors_kb
+echo 0 > /sys/block/sda/queue/add_random
+echo 2 > /sys/block/sda/queue/rq_affinity
 
 exit 0
