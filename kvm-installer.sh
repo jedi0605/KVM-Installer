@@ -216,6 +216,11 @@ increase_vm_speed() {
   sysctl -p
 }
 
+# config xrdp
+config_xrdp() {
+  echo "gnome-session --session=ubuntu-2d" > ~/.xsession
+}
+
 confirm_reboot() {
   local ok='n'
   echo -n "Reboot now to complete installation (y/N)? "
@@ -245,6 +250,7 @@ main() {
   config_bridge
   config_XTerm
   increase_vm_speed
+  config_xrdp
   confirm_reboot
 }
 
